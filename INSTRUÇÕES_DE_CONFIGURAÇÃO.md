@@ -1,27 +1,6 @@
 # Instruções de Configuração do Sistema
 
-## 1. Vídeo Introdutório
-
-O sistema está configurado para exibir um vídeo de introdução quando o usuário acessa o site pela primeira vez. Siga estas etapas para implementar o vídeo:
-
-1. **Prepare seu vídeo de introdução**:
-
-   - Formate o vídeo em MP4 (recomendado para compatibilidade)
-   - Dimensões ideais: 1280x720 ou 1920x1080
-   - Duração recomendada: 30-60 segundos
-   - Tamanho máximo recomendado: 10MB
-
-2. **Salve o vídeo no local correto**:
-
-   - Nomeie o arquivo como `intro-video.mp4`
-   - Coloque o arquivo na pasta `assets/`
-
-3. **Teste o vídeo**:
-   - O vídeo deve ser exibido automaticamente ao acessar o site
-   - O usuário pode fechar o vídeo clicando no "X" no canto superior direito
-   - O vídeo só é exibido uma vez por sessão de navegação
-
-## 2. Sistema de Doação PIX
+## 1. Sistema de Doação PIX
 
 O sistema inclui um botão "Contribua com o Projeto" que exibe um QR Code PIX para computadores e a chave PIX com opção de cópia para dispositivos móveis.
 
@@ -41,7 +20,7 @@ O sistema inclui um botão "Contribua com o Projeto" que exibe um QR Code PIX pa
    - Em computadores: exibe o QR Code
    - Em celulares: exibe a chave para cópia
 
-## 3. Configuração do MongoDB
+## 2. Configuração do MongoDB
 
 O sistema está configurado para usar MongoDB Atlas para armazenamento persistente na Vercel:
 
@@ -69,7 +48,7 @@ O sistema está configurado para usar MongoDB Atlas para armazenamento persisten
    - Ao fazer deploy, adicione uma variável de ambiente chamada `MONGODB_URI`
    - Cole a string de conexão, substituindo `<password>` pela senha real
 
-## 4. Deploy no Vercel
+## 3. Deploy no Vercel
 
 Após configurar os itens acima, siga estas etapas para fazer o deploy:
 
@@ -84,7 +63,6 @@ Após configurar os itens acima, siga estas etapas para fazer o deploy:
 
 ## Solução de Problemas
 
-- **Vídeo não aparece**: Verifique se o arquivo está no local correto e no formato MP4
 - **QR Code não aparece**: Verifique se a imagem está em `assets/qrcode-pix.png`
 - **Erro de conexão com MongoDB**: Verifique as regras de IP no MongoDB Atlas e a senha na string de conexão
 - **Avaliações não são salvas**: Consulte os logs da Vercel para identificar problemas com MongoDB

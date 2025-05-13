@@ -37,47 +37,6 @@
     />
     <title>Thomasz Kowalski - Empatia e Inclusão</title>
     <style>
-      /* Video Modal */
-      .video-modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.9);
-        z-index: 1000;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .video-container {
-        position: relative;
-        width: 80%;
-        max-width: 800px;
-      }
-
-      .close-video {
-        position: absolute;
-        top: -40px;
-        right: 0;
-        color: white;
-        font-size: 30px;
-        cursor: pointer;
-        background: none;
-        border: none;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .close-video:hover {
-        color: #e74c3c;
-      }
-
       /* PIX Donation Button */
       .pix-button {
         display: inline-flex;
@@ -86,7 +45,6 @@
         color: white;
         padding: 12px 20px;
         border-radius: 4px;
-        margin-top: 20px;
         text-decoration: none;
         font-weight: 600;
         transition: background-color 0.3s;
@@ -171,10 +129,6 @@
       }
 
       @media (max-width: 768px) {
-        .video-container {
-          width: 95%;
-        }
-
         .desktop-only {
           display: none;
         }
@@ -188,17 +142,6 @@
     </style>
   </head>
   <body>
-    <!-- Video Modal -->
-    <div class="video-modal" id="videoModal">
-      <div class="video-container">
-        <button class="close-video" id="closeVideo">✕</button>
-        <video width="100%" controls autoplay id="introVideo">
-          <source src="assets/intro-video.mp4" type="video/mp4" />
-          Seu navegador não suporta vídeos HTML5.
-        </video>
-      </div>
-    </div>
-
     <!-- PIX Modal -->
     <div class="pix-modal" id="pixModal">
       <div class="pix-modal-content">
@@ -301,6 +244,13 @@
               limites legais e éticos, para construir uma sociedade mais
               inclusiva e respeitosa.
             </p>
+            <!-- Add PIX donation button somewhere in your HTML -->
+            <div class="container" style="text-align: center; padding: 40px 0">
+              <a href="#" class="pix-button" id="openPix">
+                <img src="assets/pix-icon.svg" alt="PIX" />
+                Contribua com o Projeto
+              </a>
+            </div>
           </div>
           <div class="about-image reveal-fade">
             <img
@@ -457,38 +407,10 @@
       </div>
     </footer>
 
-    <!-- Add PIX donation button somewhere in your HTML -->
-    <div class="container" style="text-align: center; padding: 40px 0">
-      <a href="#" class="pix-button" id="openPix">
-        <img src="assets/pix-icon.svg" alt="PIX" />
-        Contribua com o Projeto
-      </a>
-    </div>
-
     <script src="script.js"></script>
     <script>
-      // Video Modal Script
+      // PIX Modal Functions
       document.addEventListener("DOMContentLoaded", function () {
-        const videoModal = document.getElementById("videoModal");
-        const closeVideo = document.getElementById("closeVideo");
-        const introVideo = document.getElementById("introVideo");
-
-        // Check if user has already watched the video in this session
-        if (!sessionStorage.getItem("videoWatched")) {
-          videoModal.style.display = "flex";
-
-          // Store that user has watched the video
-          sessionStorage.setItem("videoWatched", "true");
-        } else {
-          videoModal.style.display = "none";
-        }
-
-        closeVideo.addEventListener("click", function () {
-          videoModal.style.display = "none";
-          introVideo.pause();
-        });
-
-        // PIX Modal Functions
         const pixModal = document.getElementById("pixModal");
         const openPix = document.getElementById("openPix");
         const closePix = document.getElementById("closePix");

@@ -46,12 +46,6 @@ Um site one-page profissional dedicado a promover a inclusão, acessibilidade e 
 
 ## Novos Recursos Adicionados
 
-### Vídeo Introdutório
-
-- Um vídeo de introdução é exibido automaticamente quando um usuário acessa o site pela primeira vez
-- O usuário pode pular o vídeo clicando no botão X no canto superior direito
-- Para implementar, adicione seu vídeo em `assets/intro-video.mp4`
-
 ### Sistema de Doação por PIX
 
 - Botão "Contribua com o Projeto" exibido no final do site

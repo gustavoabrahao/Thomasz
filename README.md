@@ -44,6 +44,22 @@ Um site one-page profissional dedicado a promover a inclusão, acessibilidade e 
 5. **Reflexões**: Vídeo e citações sobre empatia
 6. **Footer**: Rodapé com informações de copyright
 
+## Novos Recursos Adicionados
+
+### Vídeo Introdutório
+
+- Um vídeo de introdução é exibido automaticamente quando um usuário acessa o site pela primeira vez
+- O usuário pode pular o vídeo clicando no botão X no canto superior direito
+- Para implementar, adicione seu vídeo em `assets/intro-video.mp4`
+
+### Sistema de Doação por PIX
+
+- Botão "Contribua com o Projeto" exibido no final do site
+- No desktop, mostra o QR Code do PIX
+- No mobile, mostra a chave PIX com opção de copiar
+- A imagem do QR Code deve ser colocada em `assets/qrcode-pix.png`
+- A chave PIX é configurável no arquivo `index.html`
+
 ## Como Usar
 
 Abra o arquivo `index.html` em qualquer navegador moderno para visualizar o site.

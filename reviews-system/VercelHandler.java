@@ -23,7 +23,7 @@ public class VercelHandler {
     static {
         reviewManager = new ReviewManager();
         authManager = new AuthManager();
-        System.out.println("VercelHandler inicializado");
+        System.out.println("VercelHandler inicializado - timestamp: " + System.currentTimeMillis());
     }
     
     /**
@@ -33,6 +33,9 @@ public class VercelHandler {
         Map<String, Object> response = new HashMap<>();
         
         try {
+            // Log da requisição
+            System.out.println("Nova requisição recebida: " + request);
+            
             // Extrair informações da solicitação
             String method = (String) request.get("method");
             String path = (String) request.get("path");
@@ -88,8 +91,12 @@ public class VercelHandler {
             
         } catch (Exception e) {
             e.printStackTrace();
+            String errorMessage = "Internal Server Error: " + e.getMessage() + " | " + e.getClass().getName();
+            if (e.getStackTrace().length > 0) {
+                errorMessage += " | at " + e.getStackTrace()[0].toString();
+            }
             return createResponse(500, Map.of("Content-Type", "application/json"), 
-                    "{\"success\": false, \"message\": \"Internal Server Error: " + e.getMessage() + "\"}");
+                    "{\"success\": false, \"message\": \"" + errorMessage + "\"}");
         }
     }
     
@@ -116,49 +123,67 @@ public class VercelHandler {
     }
     
     private static Map<String, Object> handleAddReview(Map<String, Object> body, Map<String, String> headers) {
-        String establishmentName = (String) body.get("establishmentName");
-        String address = (String) body.get("address");
-        String reviewText = (String) body.get("reviewText");
-        String reviewerName = (String) body.get("reviewerName");
-        String reviewerEmail = (String) body.get("reviewerEmail");
-        
-        // Esses podem ser enviados como números ou strings
-        int rating;
-        boolean isPositive;
-        
         try {
-            Object ratingObj = body.get("rating");
-            if (ratingObj instanceof Number) {
-                rating = ((Number) ratingObj).intValue();
-            } else {
-                rating = Integer.parseInt((String) ratingObj);
+            System.out.println("Dados recebidos no formulário: " + body);
+            
+            String establishmentName = (String) body.get("establishmentName");
+            String address = (String) body.get("address");
+            String reviewText = (String) body.get("reviewText");
+            String reviewerName = (String) body.get("reviewerName");
+            String reviewerEmail = (String) body.get("reviewerEmail");
+            
+            // Esses podem ser enviados como números ou strings
+            int rating;
+            boolean isPositive;
+            
+            try {
+                Object ratingObj = body.get("rating");
+                System.out.println("Tipo do rating: " + (ratingObj != null ? ratingObj.getClass().getName() : "null") + ", valor: " + ratingObj);
+                
+                if (ratingObj instanceof Number) {
+                    rating = ((Number) ratingObj).intValue();
+                } else {
+                    rating = Integer.parseInt((String) ratingObj);
+                }
+                
+                Object isPositiveObj = body.get("isPositive");
+                System.out.println("Tipo do isPositive: " + (isPositiveObj != null ? isPositiveObj.getClass().getName() : "null") + ", valor: " + isPositiveObj);
+                
+                if (isPositiveObj instanceof Boolean) {
+                    isPositive = (Boolean) isPositiveObj;
+                } else {
+                    isPositive = Boolean.parseBoolean((String) isPositiveObj);
+                }
+            } catch (Exception e) {
+                System.err.println("Erro ao processar rating/isPositive: " + e.getMessage());
+                e.printStackTrace();
+                headers.put("Content-Type", "application/json");
+                return createResponse(400, headers, "{\"success\": false, \"message\": \"Invalid rating format: " + e.getMessage() + "\"}");
             }
             
-            Object isPositiveObj = body.get("isPositive");
-            if (isPositiveObj instanceof Boolean) {
-                isPositive = (Boolean) isPositiveObj;
-            } else {
-                isPositive = Boolean.parseBoolean((String) isPositiveObj);
+            if (establishmentName == null || address == null || reviewText == null || 
+                reviewerName == null || reviewerEmail == null) {
+                headers.put("Content-Type", "application/json");
+                return createResponse(400, headers, "{\"success\": false, \"message\": \"Missing required fields\"}");
             }
+            
+            Review review = new Review(establishmentName, address, reviewText, rating, 
+                                      reviewerName, reviewerEmail, isPositive);
+            
+            reviewManager.addReview(review);
+            
+            headers.put("Content-Type", "application/json");
+            return createResponse(201, headers, 
+                    "{\"success\": true, \"message\": \"Avaliação recebida com sucesso! Aguardando aprovação.\"}");
         } catch (Exception e) {
+            e.printStackTrace();
+            String errorMessage = "Internal Server Error: " + e.getMessage() + " | " + e.getClass().getName();
+            if (e.getStackTrace().length > 0) {
+                errorMessage += " | at " + e.getStackTrace()[0].toString();
+            }
             headers.put("Content-Type", "application/json");
-            return createResponse(400, headers, "{\"success\": false, \"message\": \"Invalid rating format\"}");
+            return createResponse(500, headers, "{\"success\": false, \"message\": \"" + errorMessage + "\"}");
         }
-        
-        if (establishmentName == null || address == null || reviewText == null || 
-            reviewerName == null || reviewerEmail == null) {
-            headers.put("Content-Type", "application/json");
-            return createResponse(400, headers, "{\"success\": false, \"message\": \"Missing required fields\"}");
-        }
-        
-        Review review = new Review(establishmentName, address, reviewText, rating, 
-                                  reviewerName, reviewerEmail, isPositive);
-        
-        reviewManager.addReview(review);
-        
-        headers.put("Content-Type", "application/json");
-        return createResponse(201, headers, 
-                "{\"success\": true, \"message\": \"Avaliação recebida com sucesso! Aguardando aprovação.\"}");
     }
     
     private static Map<String, Object> handleLogin(Map<String, Object> body, Map<String, String> headers) {

@@ -144,28 +144,54 @@ document.addEventListener("DOMContentLoaded", function () {
 
 ## Deploy no Vercel
 
-Para fazer o deploy no Vercel:
+Para fazer o deploy no Vercel com MongoDB Atlas:
 
-1. Adicione um arquivo `vercel.json` na raiz do projeto:
+1. Crie uma conta gratuita no [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
 
-```json
-{
-  "version": 2,
-  "builds": [
-    { "src": "*.html", "use": "@vercel/static" },
-    { "src": "api/src/main/java/**/*.java", "use": "@vercel/java" }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "api/src/main/java/com/thomaszkowalski/api/ReviewServer.class"
-    },
-    { "src": "/(.*)", "dest": "/$1" }
-  ]
-}
-```
+   - Crie um novo cluster
+   - Configure um usuário de banco de dados (ex: thomasz / [senha segura])
+   - Adicione seu IP atual à lista de IPs permitidos
+   - Obtenha a string de conexão em: Clusters > Connect > Connect your application
 
-2. Conecte seu repositório ao Vercel e faça o deploy.
+2. Crie uma conta na [Vercel](https://vercel.com) se ainda não tiver
+
+3. Instale a CLI da Vercel (opcional, pode usar a interface web):
+
+   ```
+   npm install -g vercel
+   ```
+
+4. Faça upload do código para um repositório GitHub:
+
+   ```bash
+   git init
+   git add .
+   git commit -m "Versão para deploy"
+   git remote add origin https://github.com/seu-usuario/seu-repositorio.git
+   git push -u origin main
+   ```
+
+5. Importe o projeto na Vercel:
+
+   - Acesse https://vercel.com/new
+   - Importe do GitHub
+   - Selecione seu repositório
+   - Configure as variáveis de ambiente:
+     - `MONGODB_URI` = sua string de conexão do MongoDB Atlas
+
+6. Configure o build script:
+
+   - Framework preset: Other
+   - Build command: `cd reviews-system && mvn clean package`
+   - Output directory: `reviews-system/target`
+
+7. Clique em Deploy!
+
+## Limitações e Problemas Comuns
+
+- **Cold start**: As funções serverless sofrem com "cold start", o que pode tornar a primeira requisição mais lenta.
+- **Logs**: Acesse os logs do Vercel para identificar problemas no seu sistema.
+- **Permissões MongoDB**: Certifique-se que a string de conexão está correta e que o IP 0.0.0.0/0 (todos os IPs) está permitido na sua configuração de rede do MongoDB Atlas.
 
 ## Segurança
 

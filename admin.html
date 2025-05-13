@@ -337,7 +337,7 @@
           const password = document.getElementById("password").value;
 
           // Fazer requisição para o servidor
-          fetch("http://localhost:8080/api/admin/login", {
+          fetch("/api/admin/login", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -417,7 +417,7 @@
           pendingReviewsList.innerHTML = "<p>Carregando avaliações...</p>";
 
           // Fazer requisição para o servidor
-          fetch("http://localhost:8080/api/admin/reviews", {
+          fetch("/api/admin/reviews", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -462,7 +462,7 @@
           approvedReviewsList.innerHTML = "<p>Carregando avaliações...</p>";
 
           // Fazer requisição para o servidor
-          fetch("http://localhost:8080/api/reviews", {
+          fetch("/api/reviews", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -556,7 +556,7 @@
           const token = localStorage.getItem("adminToken");
 
           // Fazer requisição para o servidor
-          fetch(`http://localhost:8080/api/admin/reviews/${id}/approve`, {
+          fetch(`/api/admin/reviews/${id}/approve`, {
             method: "PUT",
             headers: {
               Authorization: `Bearer ${token}`,
@@ -612,7 +612,7 @@
           const token = localStorage.getItem("adminToken");
 
           // Fazer requisição para o servidor
-          fetch(`http://localhost:8080/api/admin/reviews/${id}`, {
+          fetch(`/api/admin/reviews/${id}`, {
             method: "DELETE",
             headers: {
               Authorization: `Bearer ${token}`,

@@ -1,0 +1,11 @@
+{
+  "projectId": "reviews-system",
+  "orgId": "thomasz-kowalski",
+  "settings": {
+    "framework": null,
+    "buildCommand": "cd reviews-system && mvn clean package",
+    "devCommand": null,
+    "outputDirectory": null,
+    "rootDirectory": "."
+  }
+}

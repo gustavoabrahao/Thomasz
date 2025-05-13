@@ -10,35 +10,41 @@ import java.util.stream.Collectors;
  * Classe responsável por gerenciar as avaliações.
  * Esta classe serve como um DAO simples para persistir e recuperar avaliações.
  * 
- * Versão adaptada para funcionar tanto localmente quanto na Vercel.
+ * Versão adaptada para funcionar tanto localmente quanto na Vercel e MongoDB.
  */
 public class ReviewManager {
     private static final String DATA_FILE = "reviews.dat";
     private List<Review> reviews;
     private AtomicLong nextId;
     private boolean isVercelEnvironment;
+    private boolean useMongoDBStorage;
     
     // Construtor
     public ReviewManager() {
         this.reviews = new ArrayList<>();
         this.nextId = new AtomicLong(1);
         
-        // Detectar ambiente Vercel
+        // Detectar ambiente Vercel e MongoDB
         this.isVercelEnvironment = System.getenv("VERCEL") != null;
+        this.useMongoDBStorage = System.getenv("MONGODB_URI") != null;
         
-        if (!isVercelEnvironment) {
+        if (!isVercelEnvironment && !useMongoDBStorage) {
             loadReviews();
         }
     }
     
     // Adicionar uma nova avaliação
     public Review addReview(Review review) {
-        if (isVercelEnvironment) {
-            // No ambiente Vercel, usar o armazenamento estático
+        if (useMongoDBStorage) {
+            // Usar MongoDB
+            MongoDBStorage.saveReview(review);
+            return review;
+        } else if (isVercelEnvironment) {
+            // Usar armazenamento temporário na Vercel
             VercelStorage.saveReview(review);
             return review;
         } else {
-            // Localmente, continuar usando o arquivo
+            // Usar armazenamento local em arquivo
             review.setId(nextId.getAndIncrement());
             reviews.add(review);
             saveReviews();
@@ -48,7 +54,15 @@ public class ReviewManager {
     
     // Aprovar uma avaliação
     public boolean approveReview(Long id) {
-        if (isVercelEnvironment) {
+        if (useMongoDBStorage) {
+            Review review = MongoDBStorage.getReviewById(id);
+            if (review != null) {
+                review.setApproved(true);
+                MongoDBStorage.saveReview(review);
+                return true;
+            }
+            return false;
+        } else if (isVercelEnvironment) {
             Review review = VercelStorage.getReviewById(id);
             if (review != null) {
                 review.setApproved(true);
@@ -70,7 +84,15 @@ public class ReviewManager {
     
     // Rejeitar uma avaliação
     public boolean rejectReview(Long id) {
-        if (isVercelEnvironment) {
+        if (useMongoDBStorage) {
+            Review review = MongoDBStorage.getReviewById(id);
+            if (review != null) {
+                review.setRejected(true);
+                MongoDBStorage.saveReview(review);
+                return true;
+            }
+            return false;
+        } else if (isVercelEnvironment) {
             Review review = VercelStorage.getReviewById(id);
             if (review != null) {
                 review.setRejected(true);
@@ -89,7 +111,9 @@ public class ReviewManager {
     
     // Obter todas as avaliações
     public List<Review> getAllReviews() {
-        if (isVercelEnvironment) {
+        if (useMongoDBStorage) {
+            return MongoDBStorage.getAllReviews();
+        } else if (isVercelEnvironment) {
             return VercelStorage.getAllReviews();
         } else {
             return new ArrayList<>(reviews);
@@ -98,7 +122,9 @@ public class ReviewManager {
     
     // Obter avaliações pendentes (não aprovadas)
     public List<Review> getPendingReviews() {
-        if (isVercelEnvironment) {
+        if (useMongoDBStorage) {
+            return MongoDBStorage.getPendingReviews();
+        } else if (isVercelEnvironment) {
             return VercelStorage.getPendingReviews();
         } else {
             return reviews.stream()
@@ -109,7 +135,9 @@ public class ReviewManager {
     
     // Obter avaliações aprovadas
     public List<Review> getApprovedReviews() {
-        if (isVercelEnvironment) {
+        if (useMongoDBStorage) {
+            return MongoDBStorage.getApprovedReviews();
+        } else if (isVercelEnvironment) {
             return VercelStorage.getApprovedReviews();
         } else {
             return reviews.stream()
@@ -120,7 +148,9 @@ public class ReviewManager {
     
     // Obter avaliações positivas aprovadas
     public List<Review> getPositiveApprovedReviews() {
-        if (isVercelEnvironment) {
+        if (useMongoDBStorage) {
+            return MongoDBStorage.getPositiveApprovedReviews();
+        } else if (isVercelEnvironment) {
             return VercelStorage.getPositiveApprovedReviews();
         } else {
             return reviews.stream()
@@ -131,7 +161,9 @@ public class ReviewManager {
     
     // Obter avaliações negativas aprovadas
     public List<Review> getNegativeApprovedReviews() {
-        if (isVercelEnvironment) {
+        if (useMongoDBStorage) {
+            return MongoDBStorage.getNegativeApprovedReviews();
+        } else if (isVercelEnvironment) {
             return VercelStorage.getNegativeApprovedReviews();
         } else {
             return reviews.stream()
@@ -142,7 +174,9 @@ public class ReviewManager {
     
     // Obter uma avaliação pelo ID
     public Review getReviewById(Long id) {
-        if (isVercelEnvironment) {
+        if (useMongoDBStorage) {
+            return MongoDBStorage.getReviewById(id);
+        } else if (isVercelEnvironment) {
             return VercelStorage.getReviewById(id);
         } else {
             return reviews.stream()

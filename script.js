@@ -145,7 +145,7 @@ function initListsContent() {
  */
 function loadApprovedReviews() {
   // Tentar buscar do servidor
-  fetch("http://localhost:8080/api/reviews?type=positive")
+  fetch("/api/reviews?type=positive")
     .then((response) => response.json())
     .then((reviews) => {
       const positiveList = document.getElementById("positive-list");
@@ -167,7 +167,7 @@ function loadApprovedReviews() {
       console.log("Erro ao carregar avaliações positivas:", error);
     });
 
-  fetch("http://localhost:8080/api/reviews?type=negative")
+  fetch("/api/reviews?type=negative")
     .then((response) => response.json())
     .then((reviews) => {
       const negativeList = document.getElementById("negative-list");

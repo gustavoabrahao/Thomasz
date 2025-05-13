@@ -5,7 +5,7 @@
     { "src": "*.java", "use": "@vercel/java" }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "ReviewServer.class" },
+    { "src": "/api/(.*)", "dest": "VercelHandler.class" },
     { "src": "/(.*)", "dest": "/$1" }
   ]
 }

@@ -15,6 +15,7 @@ public class Review {
     private String reviewerEmail;
     private boolean isPositive; // true para lista positiva, false para negativa
     private boolean approved; // se já foi aprovada pelo admin
+    private boolean rejected; // se foi rejeitada pelo admin
     private LocalDateTime createdAt;
     
     // Construtor padrão
@@ -108,6 +109,14 @@ public class Review {
 
     public void setApproved(boolean approved) {
         this.approved = approved;
+    }
+
+    public boolean isRejected() {
+        return rejected;
+    }
+
+    public void setRejected(boolean rejected) {
+        this.rejected = rejected;
     }
 
     public LocalDateTime getCreatedAt() {

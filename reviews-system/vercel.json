@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "*.html", "use": "@vercel/static" },
+    { "src": "*.java", "use": "@vercel/java" }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "ReviewServer.class" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
+}

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enviar Avaliação - Thomasz Kowalski</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .review-form-container {
+        max-width: 700px;
+        margin: 100px auto;
+        padding: 30px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-title {
+        text-align: center;
+        margin-bottom: 30px;
+        color: var(--dark-color);
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--dark-color);
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        transition: border-color 0.3s;
+      }
+
+      .form-control:focus {
+        border-color: var(--primary-color);
+        outline: none;
+      }
+
+      textarea.form-control {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .radio-group {
+        display: flex;
+        gap: 20px;
+      }
+
+      .radio-group label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        font-weight: normal;
+      }
+
+      .radio-group input {
+        margin-right: 8px;
+      }
+
+      .rating-group {
+        display: flex;
+        gap: 10px;
+      }
+
+      .rating-option {
+        flex: 1;
+        text-align: center;
+      }
+
+      .rating-option input {
+        display: none;
+      }
+
+      .rating-option label {
+        display: block;
+        cursor: pointer;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        transition: all 0.3s;
+      }
+
+      .rating-option input:checked + label {
+        background-color: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+      }
+
+      .btn-submit {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .btn-submit:hover {
+        background-color: #4ba3ba;
+      }
+
+      .feedback {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 4px;
+        display: none;
+      }
+
+      .feedback.success {
+        background-color: #d4edda;
+        color: #155724;
+        display: block;
+      }
+
+      .feedback.error {
+        background-color: #f8d7da;
+        color: #721c24;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="review-form-container">
+      <h2 class="form-title">Enviar Nova Avaliação</h2>
+
+      <form id="reviewForm">
+        <div class="form-group">
+          <label for="establishmentName">Nome do Estabelecimento*</label>
+          <input
+            type="text"
+            id="establishmentName"
+            name="establishmentName"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="address">Endereço*</label>
+          <input
+            type="text"
+            id="address"
+            name="address"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="reviewText">Sua Avaliação*</label>
+          <textarea
+            id="reviewText"
+            name="reviewText"
+            class="form-control"
+            required
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Tipo de Avaliação*</label>
+          <div class="radio-group">
+            <label>
+              <input type="radio" name="isPositive" value="true" required />
+              Positiva (Lugar Recomendado)
+            </label>
+            <label>
+              <input type="radio" name="isPositive" value="false" /> Negativa
+              (Precisa Melhorar)
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Avaliação (1 a 5 estrelas)*</label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input
+                type="radio"
+                id="rating1"
+                name="rating"
+                value="1"
+                required
+              />
+              <label for="rating1">1<br />★</label>
+            </div>
+            <div class="rating-option">
+              <input type="radio" id="rating2" name="rating" value="2" />
+              <label for="rating2">2<br />★★</label>
+            </div>
+            <div class="rating-option">
+              <input type="radio" id="rating3" name="rating" value="3" />
+              <label for="rating3">3<br />★★★</label>
+            </div>
+            <div class="rating-option">
+              <input type="radio" id="rating4" name="rating" value="4" />
+              <label for="rating4">4<br />★★★★</label>
+            </div>
+            <div class="rating-option">
+              <input type="radio" id="rating5" name="rating" value="5" />
+              <label for="rating5">5<br />★★★★★</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="reviewerName">Seu Nome*</label>
+          <input
+            type="text"
+            id="reviewerName"
+            name="reviewerName"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="reviewerEmail">Seu Email*</label>
+          <input
+            type="email"
+            id="reviewerEmail"
+            name="reviewerEmail"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn-submit">Enviar Avaliação</button>
+      </form>
+
+      <div id="feedback" class="feedback"></div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("reviewForm");
+        const feedback = document.getElementById("feedback");
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          // Obter os valores do formulário
+          const establishmentName =
+            document.getElementById("establishmentName").value;
+          const address = document.getElementById("address").value;
+          const reviewText = document.getElementById("reviewText").value;
+          const isPositive = document.querySelector(
+            'input[name="isPositive"]:checked'
+          ).value;
+          const rating = document.querySelector(
+            'input[name="rating"]:checked'
+          ).value;
+          const reviewerName = document.getElementById("reviewerName").value;
+          const reviewerEmail = document.getElementById("reviewerEmail").value;
+
+          // Criar o objeto de dados
+          const data = {
+            establishmentName,
+            address,
+            reviewText,
+            isPositive,
+            rating,
+            reviewerName,
+            reviewerEmail,
+          };
+
+          // Enviar para o servidor
+          fetch("http://localhost:8080/api/reviews", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          })
+            .then((response) => response.json())
+            .then((result) => {
+              if (result.success) {
+                feedback.className = "feedback success";
+                feedback.textContent = result.message;
+                form.reset();
+              } else {
+                feedback.className = "feedback error";
+                feedback.textContent =
+                  result.message ||
+                  "Erro ao enviar avaliação. Tente novamente.";
+              }
+            })
+            .catch((error) => {
+              feedback.className = "feedback error";
+              feedback.textContent =
+                "Erro ao conectar com o servidor. Verifique sua conexão e tente novamente.";
+              console.error("Error:", error);
+            });
+        });
+      });
+    </script>
+  </body>
+</html>

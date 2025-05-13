@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel Administrativo - Thomasz Kowalski</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      :root {
+        --admin-primary: #34495e;
+        --admin-secondary: #2c3e50;
+        --admin-accent: #27ae60;
+        --admin-danger: #e74c3c;
+        --admin-light: #ecf0f1;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Open Sans", sans-serif;
+        background-color: #f5f5f5;
+        line-height: 1.6;
+        color: #333;
+      }
+
+      .admin-wrapper {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        width: 250px;
+        background-color: var(--admin-primary);
+        color: white;
+        padding: 20px 0;
+        position: fixed;
+        height: 100vh;
+        overflow-y: auto;
+      }
+
+      .sidebar-logo {
+        padding: 0 20px 20px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: center;
+      }
+
+      .sidebar-logo img {
+        max-width: 120px;
+        margin: 0 auto 10px;
+      }
+
+      .sidebar-logo h2 {
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      .sidebar-menu {
+        list-style: none;
+      }
+
+      .sidebar-menu li a {
+        display: block;
+        padding: 12px 20px;
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: all 0.3s;
+      }
+
+      .sidebar-menu li a:hover,
+      .sidebar-menu li a.active {
+        background-color: var(--admin-secondary);
+        color: white;
+        border-left: 4px solid var(--admin-accent);
+      }
+
+      .main-content {
+        flex: 1;
+        margin-left: 250px;
+        padding: 20px;
+      }
+
+      .login-container {
+        max-width: 400px;
+        margin: 100px auto;
+        padding: 30px;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .section-title {
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+        font-size: 24px;
+        font-weight: 600;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+
+      .form-control:focus {
+        border-color: var(--admin-primary);
+        outline: none;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 10px 15px;
+        font-size: 16px;
+        font-weight: 600;
+        text-align: center;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .btn-primary {
+        background-color: var(--admin-primary);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background-color: var(--admin-secondary);
+      }
+
+      .btn-success {
+        background-color: var(--admin-accent);
+        color: white;
+      }
+
+      .btn-success:hover {
+        background-color: #219d54;
+      }
+
+      .btn-danger {
+        background-color: var(--admin-danger);
+        color: white;
+      }
+
+      .btn-danger:hover {
+        background-color: #c0392b;
+      }
+
+      .full-width {
+        width: 100%;
+      }
+
+      .alert {
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+      }
+
+      .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .review-card {
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+
+      .review-header {
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .review-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      .review-address {
+        color: #777;
+        font-size: 14px;
+      }
+
+      .review-content {
+        margin-bottom: 15px;
+      }
+
+      .review-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .review-meta {
+        color: #777;
+        font-size: 14px;
+      }
+
+      .review-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .rating {
+        color: #f39c12;
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Login Container -->
+    <div id="loginContainer" class="login-container">
+      <h2 class="section-title">Acesso Administrativo</h2>
+
+      <div id="loginAlert" class="alert alert-danger hidden"></div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="username">Usuário</label>
+          <input type="text" id="username" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input type="password" id="password" class="form-control" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary full-width">Entrar</button>
+      </form>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboard" class="admin-wrapper hidden">
+      <div class="sidebar">
+        <div class="sidebar-logo">
+          <img src="assets/logo.png" alt="Thomasz Kowalski Logo" />
+          <h2>Painel Admin</h2>
+        </div>
+
+        <ul class="sidebar-menu">
+          <li>
+            <a href="#" class="active" id="pendingReviewsLink"
+              >Avaliações Pendentes</a
+            >
+          </li>
+          <li><a href="#" id="approvedReviewsLink">Avaliações Aprovadas</a></li>
+          <li><a href="#" id="logoutLink">Sair</a></li>
+        </ul>
+      </div>
+
+      <div class="main-content">
+        <div id="pendingReviewsSection">
+          <h2 class="section-title">Avaliações Pendentes</h2>
+          <div id="pendingReviewsList"></div>
+        </div>
+
+        <div id="approvedReviewsSection" class="hidden">
+          <h2 class="section-title">Avaliações Aprovadas</h2>
+          <div id="approvedReviewsList"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const loginForm = document.getElementById("loginForm");
+        const loginAlert = document.getElementById("loginAlert");
+        const loginContainer = document.getElementById("loginContainer");
+        const adminDashboard = document.getElementById("adminDashboard");
+
+        const pendingReviewsLink =
+          document.getElementById("pendingReviewsLink");
+        const approvedReviewsLink = document.getElementById(
+          "approvedReviewsLink"
+        );
+        const logoutLink = document.getElementById("logoutLink");
+
+        const pendingReviewsSection = document.getElementById(
+          "pendingReviewsSection"
+        );
+        const approvedReviewsSection = document.getElementById(
+          "approvedReviewsSection"
+        );
+
+        const pendingReviewsList =
+          document.getElementById("pendingReviewsList");
+        const approvedReviewsList = document.getElementById(
+          "approvedReviewsList"
+        );
+
+        // Verificar se já existe um token de autenticação
+        const token = localStorage.getItem("adminToken");
+        if (token) {
+          showAdminDashboard();
+          loadPendingReviews();
+        }
+
+        // Submissão do formulário de login
+        loginForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const username = document.getElementById("username").value;
+          const password = document.getElementById("password").value;
+
+          // Fazer requisição para o servidor
+          fetch("http://localhost:8080/api/admin/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success && data.token) {
+                // Armazenar o token e mostrar o dashboard
+                localStorage.setItem("adminToken", data.token);
+                showAdminDashboard();
+                loadPendingReviews();
+              } else {
+                loginAlert.textContent =
+                  data.message || "Usuário ou senha inválidos";
+                loginAlert.classList.remove("hidden");
+              }
+            })
+            .catch((error) => {
+              loginAlert.textContent = "Erro ao conectar com o servidor";
+              loginAlert.classList.remove("hidden");
+              console.error("Error:", error);
+            });
+        });
+
+        // Navegação entre seções
+        pendingReviewsLink.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          pendingReviewsSection.classList.remove("hidden");
+          approvedReviewsSection.classList.add("hidden");
+
+          pendingReviewsLink.classList.add("active");
+          approvedReviewsLink.classList.remove("active");
+
+          loadPendingReviews();
+        });
+
+        approvedReviewsLink.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          pendingReviewsSection.classList.add("hidden");
+          approvedReviewsSection.classList.remove("hidden");
+
+          pendingReviewsLink.classList.remove("active");
+          approvedReviewsLink.classList.add("active");
+
+          loadApprovedReviews();
+        });
+
+        logoutLink.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          // Remover o token e mostrar a tela de login
+          localStorage.removeItem("adminToken");
+          showLoginForm();
+        });
+
+        // Funções auxiliares
+        function showAdminDashboard() {
+          loginContainer.classList.add("hidden");
+          adminDashboard.classList.remove("hidden");
+        }
+
+        function showLoginForm() {
+          loginContainer.classList.remove("hidden");
+          adminDashboard.classList.add("hidden");
+          loginForm.reset();
+          loginAlert.classList.add("hidden");
+        }
+
+        function loadPendingReviews() {
+          const token = localStorage.getItem("adminToken");
+
+          // Limpar a lista
+          pendingReviewsList.innerHTML = "<p>Carregando avaliações...</p>";
+
+          // Fazer requisição para o servidor
+          fetch("http://localhost:8080/api/admin/reviews", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+            .then((response) => {
+              if (response.status === 401) {
+                // Token inválido ou expirado
+                localStorage.removeItem("adminToken");
+                showLoginForm();
+                throw new Error("Unauthorized");
+              }
+              return response.json();
+            })
+            .then((reviews) => {
+              // Limpar a lista
+              pendingReviewsList.innerHTML = "";
+
+              if (reviews.length === 0) {
+                pendingReviewsList.innerHTML =
+                  "<p>Não há avaliações pendentes no momento.</p>";
+              } else {
+                // Adicionar cada avaliação à lista
+                reviews.forEach((review) => {
+                  const card = createReviewCard(review, true);
+                  pendingReviewsList.appendChild(card);
+                });
+              }
+            })
+            .catch((error) => {
+              if (error.message !== "Unauthorized") {
+                pendingReviewsList.innerHTML =
+                  "<p>Erro ao carregar avaliações: " + error.message + "</p>";
+                console.error("Error:", error);
+              }
+            });
+        }
+
+        function loadApprovedReviews() {
+          const token = localStorage.getItem("adminToken");
+
+          // Limpar a lista
+          approvedReviewsList.innerHTML = "<p>Carregando avaliações...</p>";
+
+          // Fazer requisição para o servidor
+          fetch("http://localhost:8080/api/reviews", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+            .then((response) => response.json())
+            .then((reviews) => {
+              // Limpar a lista
+              approvedReviewsList.innerHTML = "";
+
+              if (reviews.length === 0) {
+                approvedReviewsList.innerHTML =
+                  "<p>Não há avaliações aprovadas no momento.</p>";
+              } else {
+                // Adicionar cada avaliação à lista
+                reviews.forEach((review) => {
+                  const card = createReviewCard(review, false);
+                  approvedReviewsList.appendChild(card);
+                });
+              }
+            })
+            .catch((error) => {
+              approvedReviewsList.innerHTML =
+                "<p>Erro ao carregar avaliações: " + error.message + "</p>";
+              console.error("Error:", error);
+            });
+        }
+
+        function createReviewCard(review, isPending) {
+          const card = document.createElement("div");
+          card.className = "review-card";
+          card.dataset.id = review.id;
+
+          const type = review.isPositive
+            ? '<span style="color: var(--admin-accent);">Positiva</span>'
+            : '<span style="color: var(--admin-danger);">Negativa</span>';
+
+          const stars =
+            "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
+
+          let html = `
+                    <div class="review-header">
+                        <h3 class="review-title">${
+                          review.establishmentName
+                        } - ${type}</h3>
+                        <div class="review-address">${review.address}</div>
+                        <div class="rating">${stars}</div>
+                    </div>
+                    <div class="review-content">
+                        <p>${review.reviewText}</p>
+                    </div>
+                    <div class="review-footer">
+                        <div class="review-meta">
+                            <div>Enviado por: ${review.reviewerName}</div>
+                            <div>Email: ${
+                              review.reviewerEmail || "Não informado"
+                            }</div>
+                        </div>
+                `;
+
+          if (isPending) {
+            html += `
+                        <div class="review-actions">
+                            <button class="btn btn-success btn-approve" data-id="${review.id}">Aprovar</button>
+                            <button class="btn btn-danger btn-reject" data-id="${review.id}">Rejeitar</button>
+                        </div>
+                    `;
+          }
+
+          html += "</div>";
+          card.innerHTML = html;
+
+          // Adicionar event listeners
+          if (isPending) {
+            card
+              .querySelector(".btn-approve")
+              .addEventListener("click", function () {
+                approveReview(review.id);
+              });
+
+            card
+              .querySelector(".btn-reject")
+              .addEventListener("click", function () {
+                rejectReview(review.id);
+              });
+          }
+
+          return card;
+        }
+
+        function approveReview(id) {
+          const token = localStorage.getItem("adminToken");
+
+          // Fazer requisição para o servidor
+          fetch(`http://localhost:8080/api/admin/reviews/${id}/approve`, {
+            method: "PUT",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+            .then((response) => {
+              if (response.status === 401) {
+                // Token inválido ou expirado
+                localStorage.removeItem("adminToken");
+                showLoginForm();
+                throw new Error("Unauthorized");
+              }
+              return response.json();
+            })
+            .then((data) => {
+              if (data.success) {
+                // Remover o card da lista
+                const card = pendingReviewsList.querySelector(
+                  `[data-id="${id}"]`
+                );
+                if (card) {
+                  card.remove();
+                }
+
+                // Verificar se a lista está vazia
+                if (pendingReviewsList.children.length === 0) {
+                  pendingReviewsList.innerHTML =
+                    "<p>Não há avaliações pendentes no momento.</p>";
+                }
+
+                alert("Avaliação aprovada com sucesso!");
+              } else {
+                alert(data.message || "Erro ao aprovar avaliação");
+              }
+            })
+            .catch((error) => {
+              if (error.message !== "Unauthorized") {
+                alert("Erro ao aprovar avaliação: " + error.message);
+                console.error("Error:", error);
+              }
+            });
+        }
+
+        function rejectReview(id) {
+          if (
+            !confirm(
+              "Tem certeza que deseja rejeitar esta avaliação? Ela será excluída permanentemente."
+            )
+          ) {
+            return;
+          }
+
+          const token = localStorage.getItem("adminToken");
+
+          // Fazer requisição para o servidor
+          fetch(`http://localhost:8080/api/admin/reviews/${id}`, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+            .then((response) => {
+              if (response.status === 401) {
+                // Token inválido ou expirado
+                localStorage.removeItem("adminToken");
+                showLoginForm();
+                throw new Error("Unauthorized");
+              }
+              return response.json();
+            })
+            .then((data) => {
+              if (data.success) {
+                // Remover o card da lista
+                const card = pendingReviewsList.querySelector(
+                  `[data-id="${id}"]`
+                );
+                if (card) {
+                  card.remove();
+                }
+
+                // Verificar se a lista está vazia
+                if (pendingReviewsList.children.length === 0) {
+                  pendingReviewsList.innerHTML =
+                    "<p>Não há avaliações pendentes no momento.</p>";
+                }
+
+                alert("Avaliação rejeitada com sucesso!");
+              } else {
+                alert(data.message || "Erro ao rejeitar avaliação");
+              }
+            })
+            .catch((error) => {
+              if (error.message !== "Unauthorized") {
+                alert("Erro ao rejeitar avaliação: " + error.message);
+                console.error("Error:", error);
+              }
+            });
+        }
+      });
+    </script>
+  </body>
+</html>

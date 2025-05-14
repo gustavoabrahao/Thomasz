@@ -37,97 +37,6 @@
     />
     <title>Thomasz Kowalski - Empatia e Inclusão</title>
     <style>
-      /* PIX Donation Button */
-      .pix-button {
-        display: inline-flex;
-        align-items: center;
-        background-color: var(--primary-color);
-        color: white;
-        padding: 12px 20px;
-        border-radius: 4px;
-        text-decoration: none;
-        font-weight: 600;
-        transition: background-color 0.3s;
-      }
-
-      .pix-button img {
-        width: 24px;
-        margin-right: 8px;
-      }
-
-      .pix-button:hover {
-        background-color: #4ba3ba;
-      }
-
-      /* PIX Modal */
-      .pix-modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        z-index: 1000;
-        display: none;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .pix-modal-content {
-        background-color: white;
-        padding: 30px;
-        border-radius: 8px;
-        width: 90%;
-        max-width: 400px;
-        text-align: center;
-        position: relative;
-      }
-
-      .pix-qrcode {
-        width: 200px;
-        height: 200px;
-        margin: 20px auto;
-      }
-
-      .pix-key {
-        background-color: #f5f5f5;
-        padding: 12px;
-        border-radius: 4px;
-        font-family: monospace;
-        margin: 20px 0;
-        word-break: break-all;
-      }
-
-      .copy-button {
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 4px;
-        cursor: pointer;
-        font-weight: 600;
-        margin-top: 10px;
-      }
-
-      .copy-button:hover {
-        background-color: #4ba3ba;
-      }
-
-      .close-pix {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 24px;
-        cursor: pointer;
-        color: #999;
-        background: none;
-        border: none;
-      }
-
-      .close-pix:hover {
-        color: #333;
-      }
-
       @media (max-width: 768px) {
         .desktop-only {
           display: none;
@@ -142,28 +51,6 @@
     </style>
   </head>
   <body>
-    <!-- PIX Modal -->
-    <div class="pix-modal" id="pixModal">
-      <div class="pix-modal-content">
-        <button class="close-pix" id="closePix">✕</button>
-        <h3>Contribua com o Projeto</h3>
-        <p>Faça uma doação via PIX para ajudar a manter este projeto.</p>
-
-        <div class="desktop-only">
-          <img
-            src="assets/qrcode-pix.png"
-            alt="QR Code PIX"
-            class="pix-qrcode"
-          />
-        </div>
-
-        <div class="mobile-only">
-          <div class="pix-key">0af67e28-dde8-4f2a-bd9a-109c9dbc06fd</div>
-          <button class="copy-button" id="copyPix">Copiar Chave PIX</button>
-        </div>
-      </div>
-    </div>
-
     <header>
       <div class="container">
         <nav>
@@ -244,65 +131,12 @@
               limites legais e éticos, para construir uma sociedade mais
               inclusiva e respeitosa.
             </p>
-            <!-- Add PIX donation button somewhere in your HTML -->
-            <div class="container" style="text-align: center; padding: 40px 0">
-              <a href="#" class="pix-button" id="openPix">
-                <img src="assets/pix-icon.svg" alt="PIX" />
-                Contribua com o Projeto
-              </a>
-            </div>
           </div>
           <div class="about-image reveal-fade">
             <img
               src="assets/mission.jpg"
               alt="Nossa missão de inclusão e empatia"
             />
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="listas" class="lists">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="reveal-fade">Avaliações de Estabelecimentos</h2>
-          <div class="divider reveal-fade"></div>
-        </div>
-        <div class="lists-container">
-          <div class="list negative reveal-fade">
-            <h3>ESTABELECIMENTOS QUE PRECISAM MELHORAR</h3>
-            <p class="list-description">
-              Locais onde identificamos oportunidades de melhoria no atendimento
-              e na acessibilidade para PCDs e outros grupos.
-            </p>
-            <div class="list-content" id="negative-list">
-              <!-- Content will be populated by JavaScript -->
-              <div class="list-empty-state">
-                <p>
-                  Estamos revisando as avaliações recebidas. Em breve
-                  publicaremos mais conteúdo.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="list positive reveal-fade">
-            <h3>
-              LOCAIS ESPECIALISTAS NA ARTE DE ENCANTAR OS CLIENTES E NO RESPEITO
-              ÀS PESSOAS HUMANAS
-            </h3>
-            <p class="list-description">
-              Estabelecimentos que demonstraram excelência no atendimento,
-              acessibilidade e respeito a todas as pessoas.
-            </p>
-            <div class="list-content" id="positive-list">
-              <!-- Content will be populated by JavaScript -->
-              <div class="list-empty-state">
-                <p>
-                  Estamos revisando as avaliações recebidas. Em breve
-                  publicaremos mais conteúdo.
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -383,6 +217,72 @@
       </div>
     </section>
 
+    <div class="video-separator">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="reveal-fade">Thomasz Kowalski</h2>
+          <div class="divider reveal-fade"></div>
+        </div>
+        <div class="video-wrapper reveal-fade">
+          <iframe
+            width="100%"
+            height="500"
+            src="https://www.youtube.com/embed/3POrNGHfBsc?si=Bg703paY4Q6Ofruw"
+            title="Separador de Seções"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+
+    <section id="listas" class="lists">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="reveal-fade">Avaliações de Estabelecimentos</h2>
+          <div class="divider reveal-fade"></div>
+        </div>
+        <div class="lists-container">
+          <div class="list negative reveal-fade">
+            <h3>ESTABELECIMENTOS QUE PRECISAM MELHORAR</h3>
+            <p class="list-description">
+              Locais onde identificamos oportunidades de melhoria no atendimento
+              e na acessibilidade para PCDs e outros grupos.
+            </p>
+            <div class="list-content" id="negative-list">
+              <!-- Content will be populated by JavaScript -->
+              <div class="list-empty-state">
+                <p>
+                  Estamos revisando as avaliações recebidas. Em breve
+                  publicaremos mais conteúdo.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="list positive reveal-fade">
+            <h3>
+              LOCAIS ESPECIALISTAS NA ARTE DE ENCANTAR OS CLIENTES E NO RESPEITO
+              ÀS PESSOAS HUMANAS
+            </h3>
+            <p class="list-description">
+              Estabelecimentos que demonstraram excelência no atendimento,
+              acessibilidade e respeito a todas as pessoas.
+            </p>
+            <div class="list-content" id="positive-list">
+              <!-- Content will be populated by JavaScript -->
+              <div class="list-empty-state">
+                <p>
+                  Estamos revisando as avaliações recebidas. Em breve
+                  publicaremos mais conteúdo.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <footer>
       <div class="container">
         <div class="footer-content">
@@ -408,47 +308,5 @@
     </footer>
 
     <script src="script.js"></script>
-    <script>
-      // PIX Modal Functions
-      document.addEventListener("DOMContentLoaded", function () {
-        const pixModal = document.getElementById("pixModal");
-        const openPix = document.getElementById("openPix");
-        const closePix = document.getElementById("closePix");
-        const copyPix = document.getElementById("copyPix");
-
-        openPix.addEventListener("click", function (e) {
-          e.preventDefault();
-          pixModal.style.display = "flex";
-        });
-
-        closePix.addEventListener("click", function () {
-          pixModal.style.display = "none";
-        });
-
-        copyPix.addEventListener("click", function () {
-          const pixKey = "0af67e28-dde8-4f2a-bd9a-109c9dbc06fd";
-
-          // Create a temporary input element
-          const tempInput = document.createElement("input");
-          tempInput.value = pixKey;
-          document.body.appendChild(tempInput);
-
-          // Select and copy
-          tempInput.select();
-          document.execCommand("copy");
-
-          // Remove the temporary element
-          document.body.removeChild(tempInput);
-
-          // Update button text for feedback
-          copyPix.textContent = "Copiado!";
-
-          // Reset button text after 2 seconds
-          setTimeout(function () {
-            copyPix.textContent = "Copiar Chave PIX";
-          }, 2000);
-        });
-      });
-    </script>
   </body>
 </html>

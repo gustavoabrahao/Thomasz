@@ -178,6 +178,7 @@ nav {
 
 /* Hero Section */
 .hero {
+  top: 25px;
   height: 100vh;
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)),
     url("assets/hero-bg.jpg");
